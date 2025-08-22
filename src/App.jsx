@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet, NavLink } from "react-router-dom";
 import "./App.css";
 
 function App() {
@@ -6,13 +7,24 @@ function App() {
     <div className="App">
       <header className="header">
         <h1>Corrida do Salmão</h1>
+        <nav>
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Início
+          </NavLink>
+          <NavLink
+            to="/livros"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Livros
+          </NavLink>
+        </nav>
       </header>
 
       <main className="main-content">
-        <section className="hero-section">
-          <h2>Bem-vindos ao nosso clube do livro!</h2>
-          <p>Onde a leitura é a nossa maior aventura.</p>
-        </section>
+        <Outlet />
       </main>
 
       <footer className="footer">
