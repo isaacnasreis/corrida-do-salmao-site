@@ -1,25 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, NavLink } from "react-router-dom";
+import { auth } from "./firebase/config";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import "./App.css";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
+  };
+
   return (
     <div className="App">
       <header className="header">
-        <h1>Corrida do Salmão</h1>
+        <h1>
+          <NavLink to="/" className="home-link">
+            Corrida do Salmão
+          </NavLink>
+        </h1>
         <nav>
           <NavLink
-            to="/"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-          >
-            Início
-          </NavLink>
-          <NavLink
             to="/livros"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "active-link nav-link" : "nav-link"
+            }
           >
             Livros
           </NavLink>
+          {user ? (
+            <>
+              <span className="user-email">{user.email}</span>
+              <button onClick={handleLogout} className="logout-button">
+                Sair
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? "active-link nav-link" : "nav-link"
+                }
+              >
+                Entrar
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className={({ isActive }) =>
+                  isActive ? "active-link nav-link" : "nav-link"
+                }
+              >
+                Cadastrar
+              </NavLink>
+            </>
+          )}
         </nav>
       </header>
 

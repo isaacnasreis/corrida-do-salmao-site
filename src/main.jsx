@@ -6,6 +6,8 @@ import App from "./App.jsx";
 import Livros from "./pages/Livros";
 import Home from "./pages/Home";
 import BookDetails from "./pages/BookDetails";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,8 @@ const router = createBrowserRouter([
         path: "/livros/:bookId",
         element: <BookDetails />,
       },
+      { path: "/signup", element: <Signup /> },
+      { path: "/login", element: <Login /> },
     ],
   },
 ]);

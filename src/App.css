@@ -17,6 +17,13 @@
   font-weight: bold;
 }
 
+.header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .main-content {
   flex-grow: 1;
   display: flex;
@@ -34,6 +41,12 @@
   font-size: 1.2rem;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.home-link,
+.nav-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .active-link {
