@@ -1,11 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/Livros.css";
-import books from "../data/books";
+import { db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 import BookItem from "../components/BookItem";
 
 const Livros = () => {
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("todos");
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "books"));
+        const booksData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setBooks(booksData);
+      } catch (error) {
+        console.error("Erro ao buscar livros: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
 
   const filteredBooks = books
     .filter((book) => {
@@ -21,6 +43,10 @@ const Livros = () => {
       return title.includes(search) || author.includes(search);
     });
 
+  if (loading) {
+    return <div className="loading-message">Carregando livros...</div>;
+  }
+
   return (
     <div className="livros-container">
       <h2>Nossa Corrida Literária</h2>
@@ -29,9 +55,7 @@ const Livros = () => {
         vir. Prepare-se para a aventura!
       </p>
 
-      {/* Container para os controles de filtro e pesquisa */}
       <div className="controls-container">
-        {/* 3. Campo de input para a pesquisa */}
         <input
           type="text"
           placeholder="Buscar por título ou autor..."
