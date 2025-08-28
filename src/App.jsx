@@ -41,6 +41,14 @@ function App() {
           </NavLink>
           {user ? (
             <>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  isActive ? "active-link nav-link" : "nav-link"
+                }
+              >
+                Painel
+              </NavLink>
               <span className="user-email">{user.email}</span>
               <button onClick={handleLogout} className="logout-button">
                 Sair
