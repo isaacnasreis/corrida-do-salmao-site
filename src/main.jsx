@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import Livros from "./pages/Livros";
 import Home from "./pages/Home";
+import BookDetails from "./pages/BookDetails";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/livros",
         element: <Livros />,
+      },
+      {
+        path: "/livros/:bookId",
+        element: <BookDetails />,
       },
     ],
   },

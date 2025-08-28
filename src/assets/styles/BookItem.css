@@ -61,3 +61,8 @@
     width: 100%;
   }
 }
+
+.book-card-link {
+  text-decoration: none;
+  color: inherit;
+}
