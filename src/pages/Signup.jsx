@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/AuthForm.css";
 
@@ -14,7 +18,15 @@ const Signup = () => {
     e.preventDefault();
     setError("");
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await sendEmailVerification(userCredential.user);
+      alert(
+        "Cadastro realizado com sucesso! Um link de verificação foi enviado para o seu e-mail."
+      );
       navigate("/");
     } catch (err) {
       setError(err.message);

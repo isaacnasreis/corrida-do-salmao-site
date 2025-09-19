@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
+import VerifyEmail from "../pages/VerifyEmail";
 
 const ProtectedRoute = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -22,6 +23,10 @@ const ProtectedRoute = ({ children }) => {
 
   if (!user) {
     return <Navigate to="/login" />;
+  }
+
+  if (!user.emailVerified) {
+    return <VerifyEmail />;
   }
 
   return children;
