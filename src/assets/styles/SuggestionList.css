@@ -11,6 +11,9 @@
   padding: 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .suggestion-title {
   font-size: 1.2rem;
@@ -22,4 +25,41 @@
 }
 .suggestion-item small {
   opacity: 0.7;
+}
+
+.vote-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vote-count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.vote-button {
+  background-color: transparent;
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vote-button:hover:not(:disabled) {
+  background-color: #ffd700;
+  color: #4b0082;
+}
+
+.vote-button.voted {
+  background-color: #ffd700;
+  color: #4b0082;
+}
+
+.vote-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
