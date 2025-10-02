@@ -49,10 +49,12 @@ function App() {
               >
                 Painel
               </NavLink>
-              <span className="user-email">{user.email}</span>
-              <button onClick={handleLogout} className="logout-button">
-                Sair
-              </button>
+              <div className="user-actions">
+                <span className="user-email">{user.email}</span>
+                <button onClick={handleLogout} className="logout-button">
+                  Sair
+                </button>
+              </div>
             </>
           ) : (
             <>
