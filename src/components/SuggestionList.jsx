@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase/config';
-import { collection, query, orderBy, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, query, orderBy, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import "../assets/styles/SuggestionList.css";
 
@@ -76,6 +76,24 @@ const SuggestionList = () => {
     }
   };
 
+  const handleDelete = async (suggestionId) => {
+    if (!window.confirm('Tem certeza que deseja deletar esta sugestão?')) {
+      return;
+    }
+
+    try {
+      const suggestionRef = doc(db, 'suggestions', suggestionId);
+      await deleteDoc(suggestionRef);
+
+      setSuggestions(prevSuggestions => 
+        prevSuggestions.filter(s => s.id !== suggestionId)
+      );
+    } catch (error) {
+      console.error("Erro ao deletar sugestão:", error);
+      alert('Ocorreu um erro ao deletar a sugestão.');
+    }
+  };
+
   if (loading) {
     return <p>Carregando sugestões...</p>;
   }
@@ -89,6 +107,8 @@ const SuggestionList = () => {
         <ul className="suggestion-list">
           {suggestions.map(suggestion => {
             const userHasVoted = suggestion.votes?.includes(user?.uid);
+            const isOwner = user?.uid === suggestion.suggestedByUid;
+
             return (
               <li key={suggestion.id} className="suggestion-item">
                 <div>
@@ -96,15 +116,23 @@ const SuggestionList = () => {
                   <p className="suggestion-author">por {suggestion.author}</p>
                   <small>Sugerido por: {suggestion.suggestedBy}</small>
                 </div>
-                <div className="vote-section">
-                  <span className="vote-count">{suggestion.votes?.length || 0}</span>
-                  <button 
-                    onClick={() => handleVote(suggestion.id, suggestion.votes || [])} 
-                    disabled={!user}
-                    className={`vote-button ${userHasVoted ? 'voted' : ''}`}
-                  >
-                    {userHasVoted ? '✓ Votado' : 'Votar'}
-                  </button>
+                <div className="actions-section">
+                  {/* Renderiza o botão de deletar apenas para o dono */}
+                  {isOwner && (
+                    <button onClick={() => handleDelete(suggestion.id)} className="delete-button">
+                      Lixo
+                    </button>
+                  )}
+                  <div className="vote-section">
+                    <span className="vote-count">{suggestion.votes?.length || 0}</span>
+                    <button 
+                      onClick={() => handleVote(suggestion.id, suggestion.votes || [])} 
+                      disabled={!user}
+                      className={`vote-button ${userHasVoted ? 'voted' : ''}`}
+                    >
+                      {userHasVoted ? '✓ Votado' : 'Votar'}
+                    </button>
+                  </div>
                 </div>
               </li>
             );
