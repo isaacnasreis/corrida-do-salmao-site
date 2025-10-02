@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../assets/styles/AuthForm.css";
 
 const Login = () => {
@@ -43,6 +43,9 @@ const Login = () => {
         />
         <button type="submit">Entrar</button>
         {error && <p className="error-message">{error}</p>}
+        <div className="form-links">
+          <Link to="/forgot-password">Esqueci minha senha</Link>
+        </div>
       </form>
     </div>
   );

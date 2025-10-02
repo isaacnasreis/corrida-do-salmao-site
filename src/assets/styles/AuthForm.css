@@ -33,6 +33,10 @@
   font-size: 1rem;
 }
 
+.auth-form input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .auth-form button {
   width: 100%;
   padding: 0.75rem;
@@ -53,4 +57,16 @@
 .error-message {
   color: #ff8080;
   margin-top: 1rem;
+}
+
+.form-links {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.form-links a {
+  color: #ffd700;
+  text-decoration: none;
+}
+.form-links a:hover {
+  text-decoration: underline;
 }
