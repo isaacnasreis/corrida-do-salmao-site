@@ -1,4 +1,7 @@
 import React from "react";
+import SuggestionForm from "../components/SuggestionForm";
+import SuggestionList from "../components/SuggestionList";
+import "../assets/styles/Dashboard.css";
 
 const Dashboard = () => {
   return (
@@ -9,6 +12,11 @@ const Dashboard = () => {
         Aqui você terá acesso a discussões exclusivas, votações para o próximo
         livro e muito mais.
       </p>
+
+      <div className="dashboard-content">
+        <SuggestionForm />
+        <SuggestionList />
+      </div>
     </div>
   );
 };
